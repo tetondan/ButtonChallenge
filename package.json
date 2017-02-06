@@ -1,0 +1,23 @@
+{
+  "name": "buttonchallenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo \"Building here\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tetondan/ButtonChallenge.git"
+  },
+  "author": "Daniel Frehner",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tetondan/ButtonChallenge/issues"
+  },
+  "homepage": "https://github.com/tetondan/ButtonChallenge#readme",
+  "dependencies": {
+    "react": "^15.4.2",
+    "webpack": "^2.2.1"
+  }
+}
