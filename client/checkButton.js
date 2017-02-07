@@ -13,20 +13,16 @@ export default class CheckButton extends Component {
     label: string|element|component
     onChange: function
     */
-    this.checkBoxClickHandler = this.checkBoxClickHandler.bind(this);
   }
-  checkBoxClickHandler(){
-    this.setState((prev) => {
-      return {checked: !prev.checked}})
-  }
+
   render(){
     return (
       <div>
         <input type="checkbox"
         name={this.props.name}
         value={this.props.value}
-        checked={this.state.checked}
-        onChange={this.checkBoxClickHandler} />
+        checked={this.props.checked}
+        onChange={this.props.onChange} />
         {this.props.label}
       </div>
     )
