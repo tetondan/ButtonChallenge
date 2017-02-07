@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import ButtonGroup from './buttonGroup'
+import ButtonGroup from './components/buttonGroup'
 
 export default class App extends Component {
 
@@ -15,8 +15,8 @@ constructor(props){
 }
 
 checkBoxesOnChange(buttonGroup){
-  console.log(buttonGroup.state.value)
-  this.setState({values1: buttonGroup.state.value})
+  console.log(buttonGroup)
+  this.setState({values1: buttonGroup}, () => {console.log('rerendering')})
 }
 
 radioButtonsOnChange(buttonGroup){
@@ -39,6 +39,12 @@ render(){
             value:"2",
               checked: false,
               label: "Here is the Second checkbox"
+          },
+          {
+            name: "checkbox",
+            value:"3",
+            checked: false,
+            label: "Here is the THIRD checkbox"
           }
         ]}
         onChange={this.checkBoxesOnChange}

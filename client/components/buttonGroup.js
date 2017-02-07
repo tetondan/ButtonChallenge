@@ -48,6 +48,12 @@ export default class ButtonGroup extends Component {
     this.implyNone = this.implyNone.bind(this)
 
   }
+
+  componentDidUpdate(){
+    console.log('changed')
+    // this.props.onChange(this)
+  }
+
   checkBoxClickHandler(e){
   	let value = e.target.value
   	if(this.props.multiple){
@@ -59,26 +65,30 @@ export default class ButtonGroup extends Component {
 	  	let index = this.state.value.indexOf( value )
 	  	if(index < 0){
 	  		this.setState( ( prev ) => {
+          let newValues = [ ...prev.value, value]
 	  			return { 
-	  				value: [ ...prev.value, value],
+	  				value: newValues,
 	  				implyNone: false,
 	  				implyAll: (prev.value.length + 1 === this.props.options.length) 
 	  			}
-	  		}, () => {this.props.onChange(this)})
+	  		})
 	  	} else {
 	  		this.setState( ( prev ) => { 
+          let newValues = [ ...prev.value.slice(0,index), ...prev.value.slice(index + 1)];
 	  			return { 
-	  				value: [ ...prev.value.slice(0,index), ...prev.value.slice(index + 1)],
+	  				value: newValues,
 					  implyNone: (prev.value.length - 1 === 0),
 	  				implyAll: false
 	  			} 
-	  		}, () => {this.props.onChange(this)})
+	  		})
 	    }
 	  } else {
       this.props.options.forEach( ( item ) => {
         if(item.value === value){
           item.checked = true;
-          this.setState({value: [item.value]}, () => {this.props.onChange(this)})
+          this.setState( () => {
+             return {value: [item.value]}
+          })
         } else {
           item.checked = false;
         }
@@ -105,7 +115,7 @@ export default class ButtonGroup extends Component {
         implyAll: !prev.implyAll,
         implyNone: prev.implyAll
       }
-    }, () => {this.props.onChange(this)})
+    })
   }
 
   implyNone(){
@@ -126,7 +136,7 @@ export default class ButtonGroup extends Component {
         implyNone: !prev.implyNone,
         implyAll: prev.implyNone
       }
-    }, () => {this.props.onChange(this)})
+    })
   }
 
   render(){
