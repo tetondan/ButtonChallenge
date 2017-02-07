@@ -12,11 +12,10 @@ export default class ButtonGroup extends Component {
     		values.push(item.value)
     	})
     }
-    console.log(props.implyNone)
     this.state = {
     	value: values,
-    	implyNone: props.implyNone || true,
-    	implyAll: props.implyAll || false
+    	implyNone: (props.implyNone !== undefined) ?  props.implyNone : true,
+    	implyAll: (props.implyAll !== undefined) ?  props.implyAll : false
     }
     /*props = 
     Uses CheckButton & RadioButton to render based on props.
@@ -65,7 +64,7 @@ export default class ButtonGroup extends Component {
 	  				implyNone: false,
 	  				implyAll: (prev.value.length + 1 === this.props.options.length) 
 	  			}
-	  		})
+	  		}, () => {this.props.onChange(this)})
 	  	} else {
 	  		this.setState( ( prev ) => { 
 	  			return { 
@@ -73,19 +72,19 @@ export default class ButtonGroup extends Component {
 					  implyNone: (prev.value.length - 1 === 0),
 	  				implyAll: false
 	  			} 
-	  		})
+	  		}, () => {this.props.onChange(this)})
 	    }
 	  } else {
       this.props.options.forEach( ( item ) => {
         if(item.value === value){
           item.checked = true;
-          this.setState({value: [item.value]})
+          this.setState({value: [item.value]}, () => {this.props.onChange(this)})
         } else {
           item.checked = false;
         }
       })
     }
-  	this.props.onChange();
+  	
   }
 
   implyAll(){
@@ -104,16 +103,15 @@ export default class ButtonGroup extends Component {
       return {
         value: newValues,
         implyAll: !prev.implyAll,
-        implyNone: !prev.implyNone
+        implyNone: prev.implyAll
       }
-    })
+    }, () => {this.props.onChange(this)})
   }
 
   implyNone(){
   	this.setState( ( prev ) => {
-      console.log(prev)
       let newValues = []
-      if(!prev.implyNone){
+      if(prev.implyNone){
         this.props.options.forEach( ( item ) => {
           item.checked = true
           newValues.push
@@ -123,49 +121,53 @@ export default class ButtonGroup extends Component {
           item.checked = false
         })
       }
-      console.log(this.props)
       return {
         value: newValues,
         implyNone: !prev.implyNone,
-        implyAll: !prev.implyAll
+        implyAll: prev.implyNone
       }
-    })
+    }, () => {this.props.onChange(this)})
   }
 
   render(){
+    let allButton, noneButton, buttons;
+    if(this.props.multiple){
+      allButton = <CheckButton onChange={this.implyAll} name="implyAll" checked={this.state.implyAll} label="Select All"/>
+      noneButton = <CheckButton onChange={this.implyNone} name="implyNone" checked={this.state.implyNone} label="Select None"/>
+    }
+    buttons = this.props.options.map( ( item, key ) => {
+          if(this.props.multiple){
+            return (
+              <CheckButton
+                name={item.name}
+                value={item.value}
+                checked={item.checked}
+                onChange={this.checkBoxClickHandler}
+                label={item.label}
+                key={key}
+              />
+            )
+          } else {
+            return (
+              <RadioButton
+                name={item.name}
+                value={item.value}
+                checked={item.checked}
+                onChange={this.checkBoxClickHandler}
+                label={item.label}
+                key={key}
+              />
+            )
+          }
+        })
     return (
       <div>
       	{this.props.label}
-        {this.props.options.map( ( item, key ) => {
-        	if(this.props.multiple){
-	        	return (
-	        		<CheckButton
-	        			name={item.name}
-	        			value={item.value}
-	        			checked={item.checked}
-	        			onChange={this.checkBoxClickHandler}
-	        			label={item.label}
-	        			key={key}
-	        		/>
-	        	)
-	        } else {
-	        	return (
-	        		<RadioButton
-	        			name={item.name}
-	        			value={item.value}
-	        			checked={item.checked}
-	        			onChange={this.checkBoxClickHandler}
-	        			label={item.label}
-	        			key={key}
-	        		/>
-	        	)
-	        }
-        })}
-        {/* add conditional statements determining if these should be used */}
-
-        <input type="checkbox" onChange={this.implyAll} name="implyAll" checked={this.state.implyAll}/><label>Select All</label> 
-        <input type="checkbox" onChange={this.implyNone} name="implyNone" checked={this.state.implyNone}/><label>Select None</label> 
+        {buttons}
+        {allButton}
+        {noneButton}
       </div>
     )
   }
 }
+
