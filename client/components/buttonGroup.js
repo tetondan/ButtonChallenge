@@ -14,7 +14,23 @@ export default class ButtonGroup extends Component {
       //add values array to state becuase props are read only
       value: props.value || [],
       noneChecked: true,
-      allChecked: false,
+      allChecked: false
+    }
+    if(props.accessor !== undefined){
+      if(props.accessor.value !== undefined && typeof props.accessor.value === "function"){  
+        props.accessor.value(() => {
+          return () => {
+            return this.state.value
+          }
+        })
+      }
+      if(props.accessor.options !== undefined && typeof props.accessor.options === "function"){  
+        props.accessor.options(() => {
+          return () => {
+            return this.props.options
+          }
+        })
+      }
     }
   }
 

@@ -11,8 +11,15 @@ export default class App extends Component {
       values2: []
     }
     // this.radioButtonsOnChange = this.radioButtonsOnChange.bind(this);
-    this.checkBoxesOnChange = this.checkBoxesOnChange.bind(this)
-    this.radioButtonsOnChange = this.radioButtonsOnChange.bind(this)
+    this.checkBoxesOnChange = this.checkBoxesOnChange.bind(this);
+    this.radioButtonsOnChange = this.radioButtonsOnChange.bind(this);
+    // this.propertyAccessor = this.propertyAccessor.bind(this);
+    this.accessorButtonClick = this.accessorButtonClick.bind(this);
+    // this.propAcc = () => {return};
+    this.propsAccValueFunction = (object) => {
+      this.propsAccValue = object
+    }
+    this.propsAccValue = () => {return};
     this.button1 = <ButtonGroup
                     options={ [
                       { value: "1 CB", checked: false, label: "Here is the First checkbox" },
@@ -33,6 +40,7 @@ export default class App extends Component {
                       { value: "2 RB", checked: false, label: "Here is the Second radio button" },
                       { value: "3 RB", checked: false, label: "Here is Third radio button" }
                     ] }
+                    accessor={{options: this.propsAccValueFunction}}
                     name="radiobutton"
                     onChange={ this.radioButtonsOnChange }
                     value={ [] }
@@ -47,6 +55,15 @@ export default class App extends Component {
 
   radioButtonsOnChange( buttonGroup ){
     this.setState( { values2: buttonGroup.state.value } )
+  }
+
+  // propertyAccessor(object){
+  //   console.log(object)
+  //   this.propAcc = object
+  // }
+
+  accessorButtonClick(){
+    console.log(this.propsAccValue()())
   }
 
   render(){
@@ -64,7 +81,9 @@ export default class App extends Component {
             return <p key={index}>{item}</p>
           }
         )}
+        <button onClick={this.accessorButtonClick}> Find Out Here </button>
       </div>
+
     )
   }
 }
