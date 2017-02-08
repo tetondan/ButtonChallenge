@@ -38,11 +38,11 @@
   - Allow an 'accessor' property that accepts an object with keys representing the button props, where the value on each key is a function or keypath used as a 'getter' on object passed to 'options' and/or 'value'.
   - Dillinger is a cloud-enabled, mobile-ready, offline-storage, AngularJS powered HTML5 Markdown editor.
 
-### Requirements :
+## Requirements :
   
   - Node v4.0^
  
-### Running the Demo:
+## Running the Demo:
   - In the console, from the project root directory:    
     - "npm install -g webpack"
     - "npm install"
