@@ -1,3 +1,13 @@
+/* This is a demonstration of the ButtonGroup Component 
+   it renders both CheckButtons and RadioButton groups
+   The CheckButton group uses the onChange prop 
+   and the RadioButton group uses the accessor prop in order to access data
+   I've chosen to display the selected values below the groups, 
+   but that is build specifically for this demonstration.
+   Each group renders three seperate buttons with unique values.
+*/
+
+
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import ButtonGroup from './components/buttonGroup'
@@ -8,14 +18,11 @@ export default class App extends Component {
     super( props )
     this.state = {
       values1: [],
-      values2: []
+      values2: ['none selected']
     }
-    // this.radioButtonsOnChange = this.radioButtonsOnChange.bind(this);
     this.checkBoxesOnChange = this.checkBoxesOnChange.bind(this);
     this.radioButtonsOnChange = this.radioButtonsOnChange.bind(this);
-    // this.propertyAccessor = this.propertyAccessor.bind(this);
     this.accessorButtonClick = this.accessorButtonClick.bind(this);
-    // this.propAcc = () => {return};
     this.propsAccValueFunction = (object) => {
       this.propsAccValue = object
     }
@@ -40,9 +47,8 @@ export default class App extends Component {
                       { value: "2 RB", checked: false, label: "Here is the Second radio button" },
                       { value: "3 RB", checked: false, label: "Here is Third radio button" }
                     ] }
-                    accessor={{options: this.propsAccValueFunction}}
+                    accessor={{value: this.propsAccValueFunction}}
                     name="radiobutton"
-                    onChange={ this.radioButtonsOnChange }
                     value={ [] }
                     label={ <h1>Button Group 2: Radio Buttons</h1> }
                     multiple={ false }
@@ -57,13 +63,8 @@ export default class App extends Component {
     this.setState( { values2: buttonGroup.state.value } )
   }
 
-  // propertyAccessor(object){
-  //   console.log(object)
-  //   this.propAcc = object
-  // }
-
   accessorButtonClick(){
-    console.log(this.propsAccValue()())
+    this.setState({values2: this.propsAccValue()});
   }
 
   render(){
@@ -76,12 +77,11 @@ export default class App extends Component {
           } 
         )}
         { this.button2 }
-        <h4>Selected Values:</h4>
+        <h4>Selected Values using accessor prop: <button onClick={this.accessorButtonClick}> Output Current Value </button></h4>
         { this.state.values2.map( ( item, index ) => {
             return <p key={index}>{item}</p>
           }
         )}
-        <button onClick={this.accessorButtonClick}> Find Out Here </button>
       </div>
 
     )
