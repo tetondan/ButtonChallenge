@@ -1,30 +1,16 @@
-import React, {Component} from "react"
+import React from "react"
 
-export default class CheckButton extends Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      checked: props.checked
-    }
-    /*props = 
-    name: string
-    value: any
-    checked: boolean
-    label: string|element|component
-    onChange: function
-    */
-  }
-
-  render(){
+const CheckButton = (props) => {
     return (
       <div>
         <input type="checkbox"
-        name={this.props.name}
-        value={this.props.value}
-        checked={this.props.checked}
-        onChange={this.props.onChange} />
-        {this.props.label}
+        name={props.name}
+        value={props.value}
+        checked={props.checked}
+        onChange={props.onChange} />
+        {props.label}
       </div>
     )
-  }
 }
+
+export default CheckButton

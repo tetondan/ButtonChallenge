@@ -1,28 +1,16 @@
-import React, {Component} from "react"
+import React from "react"
 
-export default class RadioButton extends Component {
-  constructor(props){
-    super(props)
-    /*props = 
-    name: string
-    value: any
-    checked: boolean
-    label: string|element|component
-    onChange: funciton
-    */
-
-  }
-
-  render(){
-    return (
-      <div>
-        <input type="radio"
-        name={this.props.name}
-        value={this.props.value}
-        checked={this.props.checked}
-        onChange={this.props.onChange} />
-        {this.props.label}
-      </div>
-    )
-  }
+const RadioButton = (props) => {
+  return (
+    <div>
+      <input type="radio"
+      name={props.name}
+      value={props.value}
+      checked={props.checked}
+      onChange={props.onChange} />
+      {props.label}
+    </div>
+  )
 }
+
+export default RadioButton
