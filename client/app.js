@@ -3,7 +3,7 @@
    The CheckButton group uses the onChange prop 
    and the RadioButton group uses the accessor prop in order to access data
    I've chosen to display the selected values below the groups, 
-   but that is build specifically for this demonstration.
+   but that is built specifically for this demonstration.
    Each group renders three seperate buttons with unique values.
 */
 
@@ -20,13 +20,14 @@ export default class App extends Component {
       values1: [],
       values2: ['none selected']
     }
-    this.checkBoxesOnChange = this.checkBoxesOnChange.bind(this);
-    this.radioButtonsOnChange = this.radioButtonsOnChange.bind(this);
-    this.accessorButtonClick = this.accessorButtonClick.bind(this);
-    this.propsAccValueFunction = (object) => {
+    this.checkBoxesOnChange = this.checkBoxesOnChange.bind( this );
+    this.accessorButtonClick = this.accessorButtonClick.bind( this );
+
+    this.propsAccValueFunction = ( object ) => {
       this.propsAccValue = object
     }
-    this.propsAccValue = () => {return};
+    this.propsAccValue = () => { return };
+
     this.button1 = <ButtonGroup
                     options={ [
                       { value: "1 CB", checked: false, label: "Here is the First checkbox" },
@@ -59,12 +60,8 @@ export default class App extends Component {
     this.setState( { values1: buttonGroup.state.value } )
   }
 
-  radioButtonsOnChange( buttonGroup ){
-    this.setState( { values2: buttonGroup.state.value } )
-  }
-
   accessorButtonClick(){
-    this.setState({values2: this.propsAccValue()});
+    this.setState( { values2: this.propsAccValue() } );
   }
 
   render(){
