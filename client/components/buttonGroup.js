@@ -3,34 +3,40 @@ import RadioButton from './radioButton';
 import CheckButton from './checkButton';
 
 export default class ButtonGroup extends Component {
-  constructor(props){
-    super(props)
+  constructor( props ){
+    super( props )
+
+    this.clickHandler = this.clickHandler.bind( this )
+    this.allClickHandler = this.allClickHandler.bind( this )
+    this.noneClickHandler = this.noneClickHandler.bind( this )
+
     this.state = {
+      //add values array to state becuase props are read only
       value: props.value || [],
       noneChecked: true,
       allChecked: false,
     }
-    this.clickHandler = this.clickHandler.bind(this)
-    this.allClickHandler = this.allClickHandler.bind(this)
-    this.noneClickHandler = this.noneClickHandler.bind(this)
   }
 
   componentDidUpdate(){
-    console.log(this.state)
     this.props.onChange(this)
   }
 
   //create click handler to pass down to each button to control state
-  clickHandler(e){
+  clickHandler( e ){
+
     let value = e.target.value
-    if(this.props.multiple){
+    let index = this.state.value.indexOf( value )
+
+    //check to see if this button group is checkboxes
+    if( this.props.multiple ){
       this.props.options.forEach( ( item ) => {
         if( item.value === value ){
           item.checked = !item.checked
         }
       })
-      let index = this.state.value.indexOf( value )
-      if(index < 0){
+      //if option currently not in values array, add option to values array and check that option
+      if( index < 0 ){
         this.setState( ( prev ) => {
           let newValues = [ ...prev.value, value]
           return { 
@@ -39,6 +45,7 @@ export default class ButtonGroup extends Component {
             allChecked: (prev.value.length + 1 === this.props.options.length) 
           }
         })
+      // else, remove option from values array and set that option to unchecked
       } else {
         this.setState( ( prev ) => { 
           let newValues = [ ...prev.value.slice(0,index), ...prev.value.slice(index + 1)];
@@ -49,14 +56,17 @@ export default class ButtonGroup extends Component {
           } 
         })
       }
+    //else the button group is radio buttons
     } else {
+      //Becuase they are radio buttons, there can only be one selected.
       this.props.options.forEach( ( item ) => {
-        if(item.value === value){
+        if( item.value === value ){
           item.checked = true;
           this.setState( () => {
-             return {value: [item.value]}
+             return { value: [ item.value ] }
           })
         } else {
+          //set all other option to unchecked
           item.checked = false;
         }
       })
@@ -110,33 +120,33 @@ export default class ButtonGroup extends Component {
     if(this.props.multiple){
       if(this.props.implyAll){
 
-        //if implyAll create implyAll button
-        allButton = <CheckButton onChange={this.allClickHandler} name="implyAll" checked={this.state.allChecked} label="Select All"/>
+        //if implyAll create Select All button
+        allButton = <CheckButton onChange={this.allClickHandler} name="selectAll" checked={this.state.allChecked} label="Select All"/>
       }
       if(this.props.implyNone){
 
-        //if implyNone create implyNone button
-        noneButton = <CheckButton onChange={this.noneClickHandler} name="implyNone" checked={this.state.noneChecked} label="Select None"/>
+        //if implyNone create Select None button
+        noneButton = <CheckButton onChange={this.noneClickHandler} name="selectNone" checked={this.state.noneChecked} label="Select None"/>
       }
     }
     //create list of buttons from this.props.options
     buttons = this.props.options.map( ( item, key ) => {
-          if(this.props.multiple){
+          //check to see if button group is checkboxes
+          if( this.props.multiple ){
             return (
-                <CheckButton
-                  name={item.name}
-                  value={item.value}
-                  checked={item.checked}
-                  onChange={this.clickHandler}
-                  onClick={() => {console.log("heerree")}}
-                  label={item.label}
-                  key={key}
-                />
+              <CheckButton
+                name={this.props.name}
+                value={item.value}
+                checked={item.checked}
+                onChange={this.clickHandler}
+                label={item.label}
+                key={key}
+              />
             )
           } else {
             return (
               <RadioButton
-                name={item.name}
+                name={this.props.name}
                 value={item.value}
                 checked={item.checked}
                 onChange={this.clickHandler}
