@@ -166,7 +166,7 @@ export default class ButtonGroup extends Component {
 
     //create list of buttons from this.state.options
     //check to see if button group is checkboxes
-    if( this.props.multiple ){
+    if( this.props.multiple || this.props.multiple === undefined ){
       buttons = this.state.options.map( ( item, key ) => {
         return (
           <CheckButton
