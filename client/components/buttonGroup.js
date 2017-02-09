@@ -154,11 +154,11 @@ export default class ButtonGroup extends Component {
   render(){
     let allButton, noneButton, buttons;
     if(this.props.multiple){
-      if(this.props.implyAll && this.props.multiple){
+      if(this.props.implyAll && (this.props.multiple || this.props.multiple === undefined)){
         //if implyAll and buttons not radio buttons, create Select All button
         allButton = <CheckButton onChange={this.allClickHandler} name="selectAll" checked={this.state.allChecked} label="Select All"/>
       }
-      if(this.props.implyNone && this.props.multiple){
+      if(this.props.implyNone && (this.props.multiple || this.props.multiple === undefined)){
         //if implyNone and buttons not radio buttons, create Select None button
         noneButton = <CheckButton onChange={this.noneClickHandler} name="selectNone" checked={this.state.noneChecked} label="Select None"/>
       }
@@ -204,5 +204,17 @@ export default class ButtonGroup extends Component {
       </div>
     )
   }
+}
+
+ButtonGroup.propTypes = {
+    name: React.PropTypes.string,
+    options: React.PropTypes.array.isRequired,
+    value: React.PropTypes.array,
+    multiple: React.PropTypes.bool.isRequired,
+    implyAll: React.PropTypes.bool,
+    implyNone: React.PropTypes.bool,
+    onChange: React.PropTypes.func,
+    label: React.PropTypes.node,
+    accessor: React.PropTypes.object
 }
 

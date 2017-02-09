@@ -13,4 +13,12 @@ const CheckButton = (props) => {
     )
 }
 
+CheckButton.propTypes = {
+    name: React.PropTypes.string,
+    value: React.PropTypes.node,
+    checked: React.PropTypes.bool.isRequired,
+    onChange: React.PropTypes.func,
+    label: React.PropTypes.node,
+}
+
 export default CheckButton

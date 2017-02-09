@@ -74,7 +74,7 @@ export default class App extends Component {
           } 
         )}
         { this.button2 }
-        <h4>Selected Values using accessor prop: <button onClick={this.accessorButtonClick}> Output Current Value </button></h4>
+        <h4>Selected value using accessor prop: <button onClick={this.accessorButtonClick}> Output Current Value </button></h4>
         { this.state.values2.map( ( item, index ) => {
             return <p key={index}>{item}</p>
           }
